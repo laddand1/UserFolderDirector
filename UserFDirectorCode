@@ -1,0 +1,48 @@
+import subprocess
+from sys import version_info
+import os
+##############################################################################
+while True:
+    py3 = version_info[0] > 2 #checks to see what version of Python the user is using.
+                              #If the user is using 2.x, the function uses "raw_input"
+                              #instead of "input"
+    if py3:
+        try:
+            user_input = input("Please enter your username: ").strip()
+            
+            if(not user_input or user_input.isspace()):
+                #line above stops users from being able to access users folder by typing enter or entering spaces
+                raise ValueError("Your username was invalid, please try again.")
+            
+        except ValueError as e:
+            print(e)
+            print("\n")
+            continue
+                #used a try - except block to stop the ability to access
+                #the \\[directory]\users folder by hitting "enter" instead of typing a username
+    else:
+        try:
+            user_input = raw_input("Please enter your username: ").strip()
+
+            if(not user_input or user_input.isspace()): 
+                raise ValueError("Your username was invalid, please try again.")
+
+        except ValueError as e:
+            print(e)
+            print("\n")
+            continue
+
+###############################################################################
+        
+    if(os.path.exists('//[directoy]/users/' + user_input)): #change [directory] to the pathway that meets what criteria you need.
+        subprocess.Popen(r'explorer /open,"[directory]/users"' + user_input)  #opens file explorer to open pathway of user_input.
+        break                       #redacted the directory as it's proprietary to the business I work for. This can easily be changed to suit your needs
+    else:
+
+        print("Check to make sure that you have entered the correct username and try again.")
+        print("\n")
+        
+
+    continue
+    #keep 'break' here so it doesn't prompt for input even though the file has already opened.
+    
